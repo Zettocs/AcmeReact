@@ -1,25 +1,62 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import "./App.css";
+import Sidebar from "./components/Sidebar";
+import Login from "./components/Login";
+import Logout from "./components/Logout";
+import Profil from "./components/Profil";
+import Stock from "./components/Stock";
+import Livraison from "./components/Livraison";
+import Rapport from "./components/Rapport";
 
-function App() {
+const App = () => {
+  const [isConnected, setIsConnected] = useState(false);
+  const [sidebarVisible, setSidebarVisible] = useState(true);
+  const sidebarWidth = sidebarVisible ? "20%" : "0";
+
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+  };
+
+  const updateConnectionStatus = (status) => {
+    setIsConnected(status);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="app">
+        <Sidebar
+          visible={sidebarVisible}
+          onToggle={toggleSidebar}
+          isConnected={isConnected}
+          updateConnectionStatus={updateConnectionStatus}
+        />
+        <div className="main-content" style={{ marginLeft: sidebarWidth }}>
+          <Switch>
+            <Route path="/connexion">
+              <Login updateConnectionStatus={updateConnectionStatus} />
+            </Route>
+            <Route path="/deconnexion">
+              <Logout updateConnectionStatus={updateConnectionStatus} />
+            </Route>
+            <Route path="/profil">
+              <Profil updateConnectionStatus={updateConnectionStatus} />
+            </Route>
+            <Route path="/stock">
+              <Stock />
+            </Route>
+            <Route path="/livraison">
+              <Livraison />
+            </Route>
+            <Route path="/rapport">
+              <Rapport />
+            </Route>
+          </Switch>
+        </div>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;

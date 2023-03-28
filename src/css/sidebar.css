@@ -1,0 +1,120 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 20%;
+  background-color: #27476E;
+  text-align: center;
+}
+  
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar-logo {
+  width: 70%; 
+  margin-top: 40px; 
+}
+
+.sidebar-photo {
+  width: 80%; 
+  margin-top: 10px; 
+  border-radius: 50%;
+}
+
+.toggle-sidebar-button,
+.toggle-sidebar-button-closed {
+  position: absolute;
+  top: 10px;
+  left: 85%;
+  background-color: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  z-index: 1000;
+  border-radius: 15px;
+  
+}
+
+.toggle-sidebar-button-closed {
+  position: fixed;
+  left : 10px;
+  background-color: #27476E;
+  
+}
+
+.toggle-sidebar-button{
+  
+  background-color: #92BDDB;
+}
+
+.connexion-button-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 10%;
+}
+
+.connexion-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #00bf63; 
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+  width: 100%; 
+  text-align: center; 
+  font-size:x-large;
+}
+
+.connexion-button:hover {
+  background-color: #169d63; 
+  color: white;
+}
+
+.logout-button {
+  background-color: #ff0000;
+  font-size: 100%;
+}
+
+.logout-button:hover {
+  background-color: #cc0000;
+}
+
+.user-info{
+  color: white;
+  font-size: 120%;
+  width: 100%;
+  margin-top: 5%;
+}
+
+ul{
+ list-style: none;
+}
+
+.nav-link{
+  text-decoration: none;
+  color: white;
+}
+
+.sidebar-navigation ul {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidebar-navigation li {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 15%;
+}
+
