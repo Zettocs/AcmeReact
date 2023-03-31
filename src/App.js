@@ -9,6 +9,7 @@ import Profil from "./components/Profil";
 import Stock from "./components/Stock";
 import Livraison from "./components/Livraison";
 import Rapport from "./components/Rapport";
+import ShoppingList from "./components/ShoppingList";
 
 const App = () => {
   const [isConnected, setIsConnected] = useState(false);
@@ -44,7 +45,7 @@ const App = () => {
               <Profil updateConnectionStatus={updateConnectionStatus} />
             </Route>
             <Route path="/stock">
-              <Stock />
+              <ShoppingList updateConnectionStatus={updateConnectionStatus} />
             </Route>
             <Route path="/livraison">
               <Livraison />
@@ -53,6 +54,7 @@ const App = () => {
               <Rapport />
             </Route>
           </Switch>
+          
         </div>
       </div>
     </Router>
