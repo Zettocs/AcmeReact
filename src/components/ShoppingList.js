@@ -19,7 +19,7 @@ function ShoppingList() {
   const [produits, setShoeData] = useState([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/produits')
+    fetch('http://valentinscottez.fr/AcmeSymfonyAPI/public/index.php/api/produits')
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
