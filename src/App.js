@@ -10,6 +10,7 @@ import Stock from "./components/Stock";
 import Livraison from "./components/Livraison";
 import Rapport from "./components/Rapport";
 import ShoppingList from "./components/ShoppingList";
+import Commande from "./components/Commande";
 
 const App = () => {
   const [isConnected, setIsConnected] = useState(false);
@@ -52,6 +53,9 @@ const App = () => {
             </Route>
             <Route path="/rapport">
               <Rapport />
+            </Route>
+            <Route path="/commande">
+              <Commande updateConnectionStatus={updateConnectionStatus} />
             </Route>
           </Switch>
           

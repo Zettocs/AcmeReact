@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink, useHistory } from "react-router-dom";
 import "../css/sidebar.css";
-import logo from "../Images/logo.png";
-import photo from "../Images/photo.jpg";
+import logo from "../logo.png";
+import photo from "../photo.jpg";
 
 const Sidebar = ({
   visible,

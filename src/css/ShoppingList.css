@@ -14,12 +14,13 @@ h1 {
 }
 
 .chaussures {
-    width: 100%;
-    background-color: white;
-    border-radius: 30px
+    display: flex;
+    width: 60%;
+    height: 80%;  
 }
 
 .test {
+    display: contents;
     width: 100%;
     height: 50%;
 }
@@ -70,7 +71,19 @@ h1 {
 }
 
 .produit-wrapper .prix {
+    font-size: 100%;
+    
+}
+
+.stock {
+    display: grid;
     font-size: 120%;
+    font-weight: bold;
+}
+
+.alerte {
+    display: grid;
+    font-size: 80%;
     font-weight: bold;
 }
 
