@@ -13,41 +13,47 @@ export default function HistoriqueCommande() {
     const [commandesAvecUtilisateurs, setCommandeData] = useState([]);
 
     useEffect(() => {
-        fetch('http://146.59.196.129/AcmeSymfonyAPI/public/index.php/api/historique_commande')
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            return response.json();
-          })
-        .then(data => {
-            const commandesAvecUtilisateurs = [];
-            data.forEach(commande => {
-            fetch("http://146.59.196.129/AcmeSymfonyAPI/public/index.php/api/utilisateur/${commandesAvecUtilisateurs.utilisateur_id}")
-            
+      fetch('http://146.59.196.129/AcmeSymfonyAPI/public/index.php/api/historique_commande')
         .then(response => {
-            if (!response.ok) {
+          if (!response.ok) {
             throw new Error('Network response was not ok');
-            }
-            return response.json();
-            })
-
-        .then(utilisateur => {
-            const commandeAvecUtilisateur = {
-                id: commande.id,
-                date_commande: commande.date_commande.date,
-                nom_utilisateur: utilisateur.nom,
-                email_utilisateur: utilisateur.email,
-                prix_total: commande.prix_total,
-            };
-        commandesAvecUtilisateurs.push(commandeAvecUtilisateur);
-        setCommandeData(commandesAvecUtilisateurs);
+          }
+          return response.json();
         })
-            .catch(error => console.error('Error fetching utilisateur:', error));
-            });
-            })
-            .catch(error => console.error('Error fetching commandes:', error));
-            }, []);
+      .then(data => {
+          const commandesAvecUtilisateurs = [];
+          const promises = [];
+          data.forEach(commande => {
+          const promise = fetch(`http://146.59.196.129/AcmeSymfonyAPI/public/index.php/api/utilisateur/${commande.utilisateur_id}`)
+          
+      .then(response => {
+          if (!response.ok) {
+          throw new Error('Network response was not ok');
+          }
+          return response.json();
+          })
+
+      .then(utilisateur => {
+          const commandeAvecUtilisateur = {
+              id: commande.id,
+              date_commande: commande.date_commande.date,
+              nom_utilisateur: utilisateur.nom,
+              email_utilisateur: utilisateur.email,
+              prix_total: commande.prix_total,
+          };
+      commandesAvecUtilisateurs.push(commandeAvecUtilisateur);
+      
+      })
+          .catch(error => console.error('Error fetching utilisateur:', error));
+          promises.push(promise);
+          });
+          Promise.all(promises).then(() => {
+            setCommandeData(commandesAvecUtilisateurs);
+          });
+  
+          })
+          .catch(error => console.error('Error fetching commandes:', error));
+          }, []);
       
 
       return (
