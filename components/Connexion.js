@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Connexion = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState("");
@@ -14,22 +15,37 @@ const Connexion = ({ setIsLoggedIn }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://146.59.196.129/AcmeSymfonyAPI/public/index.php/api/connexion", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        "http://146.59.196.129/AcmeSymfonyAPI/public/index.php/api/connexion",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       console.log("Réponse de l'API:", response);
 
       if (response.ok) {
         const data = await response.json();
+        console.log("Données renvoyées par l'API:", data);
 
-        // Stockez le token JWT dans le AsyncStorage ou dans un cookie
-        // Stockez également les données utilisateur dans le AsyncStorage
-        // N'oubliez pas de gérer l'expiration du token
+        // Exemple pour stocker le token JWT
+        if (data.token) {
+          await AsyncStorage.setItem("jwt_token", data.token);
+        }
+
+        // Stockez les données utilisateur dans le AsyncStorage
+        const userData = {
+          email: data.user.email,
+          //firstname: data.user.firstname, // Modifiez cette ligne pour extraire l'email correctement
+          // Ajoutez d'autres champs si nécessaire
+        };
+        await AsyncStorage.setItem("user", JSON.stringify(userData));
+
+        // Déplacez setIsLoggedIn(true) ici, après avoir stocké les données utilisateur
         setIsLoggedIn(true);
       } else {
         // Gérez les erreurs de connexion

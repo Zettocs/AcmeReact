@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ShoppingList from "./components/ShoppingList";
 import Commande from "./components/Commande";
 import ProfilScreen from "./components/ProfilScreen";
-import { StatusBar } from "react-native";
 import Accueil from "./components/Accueil";
 import Connexion from "./components/Connexion";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -22,6 +21,10 @@ export default function App() {
       setShowAccueil(false);
     }, 3000);
   }, []);
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
 
   return (
     <NavigationContainer>
@@ -60,7 +63,7 @@ export default function App() {
                 />
                 <Tab.Screen
                   name="Profil"
-                  component={ProfilScreen}
+                  children={() => <ProfilScreen onLogout={handleLogout} />}
                   options={{
                     tabBarIcon: ({ color, size }) => (
                       <Icon name="user" color={color} size={size} />
@@ -72,7 +75,7 @@ export default function App() {
                   component={HistoriqueCommande}
                   options={{
                     tabBarIcon: ({ color, size }) => (
-                      <Icon name="user" color={color} size={size} />
+                      <Icon name="history" color={color} size={size} />
                     ),
                   }}
                 />
@@ -97,6 +100,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0,9)", // Augmenter la valeur d'opacité pour un fondu plus prononcé
+    backgroundColor: "rgba(0, 0, 0, 0.9)",
   },
 });
