@@ -8,9 +8,24 @@ import {
   StyleSheet,
 } from "react-native";
 
-
 export default function HistoriqueCommande() {
     const [commandesAvecUtilisateurs, setCommandeData] = useState([]);
+    const [selectedCommande, setSelectedCommande] = useState(null);
+    const [selectedCommandeLignes, setSelectedCommandeLignes] = useState([]);
+
+    const sendCommandeIdToSymfony = async (commande) => {
+      try {
+        const response = await fetch(
+          `http://146.59.196.129/AcmeSymfonyAPI/public/index.php/api/ligne_commande/${commande.id}`
+        );
+        const data = await response.json();
+        setSelectedCommande(commande);
+        setSelectedCommandeLignes(data.lignes_commande);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
 
     useEffect(() => {
       fetch('http://146.59.196.129/AcmeSymfonyAPI/public/index.php/api/historique_commande')
@@ -61,23 +76,40 @@ export default function HistoriqueCommande() {
           <View style={styles.container}>
             <View style={styles.table}>
               <View style={styles.row}>
-                <Text style={[styles.cell, styles.header]}>Nom</Text>
+                <Text style={[styles.cell, styles.header]}>Id Commande</Text>
 
-                <Text style={[styles.cell, styles.header]}>Stock</Text>
-                <Text style={[styles.cell, styles.header]}>Prix</Text>
+                <Text style={[styles.cell, styles.header]}>Date</Text>
+                <Text style={[styles.cell, styles.header]}>Client</Text>
+                <Text style={[styles.cell, styles.header]}>Adresse mail</Text>
                 <Text style={[styles.cell, styles.header]} numberOfLines={2}>
-                  Quantite a commander
+                  Prix total
                 </Text>
               </View>
               {commandesAvecUtilisateurs.map((commande, index) => (
-                <View style={styles.row} key={index}>
+              <TouchableOpacity key={index} onPress={() => sendCommandeIdToSymfony(commande)}>
+                <View style={styles.row}>
                   <Text style={styles.cell}>{commande.id}</Text>
                   <Text style={styles.cell}>{commande.date_commande}</Text>
                   <Text style={styles.cell}>{commande.nom_utilisateur}</Text>
                   <Text style={styles.cell}>{commande.email_utilisateur}€</Text>
                   <Text style={styles.cell}>{commande.prix_total}€</Text>
                 </View>
+              </TouchableOpacity>
               ))}
+      {selectedCommande && (
+        <View>
+          <Text>Commande ID: {selectedCommande.id}</Text>
+          <Text>Prix total: {selectedCommande.prix_total}</Text>
+          {selectedCommandeLignes.map((ligne, index) => (
+            <View key={index}>
+              <Text>Ligne commande ID: {ligne.id}</Text>
+              <Text>Commande ID: {ligne.commande_id}</Text>
+              <Text>Produit: {ligne.produit_id}</Text>
+              <Text>Prix: {ligne.prix}</Text>
+            </View>
+              ))}
+                </View>
+              )}
             </View>
           </View>
         </ScrollView>
