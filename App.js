@@ -17,6 +17,10 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showAccueil, setShowAccueil] = useState(true);
 
+  const userRoles = ['["ROLE_ADMIN"], ["ROLE_USER"]'];
+
+  const shouldDisplayCommandeTab = userRoles.includes('["ROLE_ADMIN"]');
+
   useEffect(() => {
     setTimeout(() => {
       setShowAccueil(false);
@@ -49,6 +53,7 @@ export default function App() {
                     ),
                   }}
                 />
+                {shouldDisplayCommandeTab && (
                 <Tab.Screen
                   name="Commande"
                   component={Commande}
@@ -58,6 +63,7 @@ export default function App() {
                     ),
                   }}
                 />
+                )}
                 <Tab.Screen
                   name="Profil"
                   component={ProfilScreen}
