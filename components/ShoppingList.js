@@ -29,15 +29,6 @@ function Shoe(props) {
           <Text style={{ color: "red" }}>Attention bientôt en rupture!</Text>
         )}
       </Text>
-      <View style={styles.addFormWrapper}>
-        <TextInput
-          keyboardType="numeric"
-          placeholder="Quantité"
-          onChangeText={(text) => setQuantity(text)}
-          value={quantity}
-          style={styles.quantityInput}
-        />
-      </View>
     </View>
   );
 }
