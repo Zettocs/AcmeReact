@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Connexion = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState("");
@@ -27,9 +28,13 @@ const Connexion = ({ setIsLoggedIn }) => {
       if (response.ok) {
         const data = await response.json();
 
-        // Stockez le token JWT dans le AsyncStorage ou dans un cookie
+        // Stockez le token JWT et les données utilisateur dans le AsyncStorage
+        await AsyncStorage.setItem('token', data.token);
+        await AsyncStorage.setItem('user', JSON.stringify(data.user));
         // Stockez également les données utilisateur dans le AsyncStorage
         // N'oubliez pas de gérer l'expiration du token
+        const userRoles = JSON.parse(data.user.roles);
+        await AsyncStorage.setItem('userRoles', JSON.stringify(userRoles));
         setIsLoggedIn(true);
       } else {
         // Gérez les erreurs de connexion

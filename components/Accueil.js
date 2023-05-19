@@ -2,8 +2,47 @@ import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 export default function HomeScreen() {
+
+  const Accueil = ({ navigation }) => {
+    const [user, setUser] = useState(null);
+    
+    useEffect(() => {
+      const getUserData = async () => {
+        try {
+          const value = await AsyncStorage.getItem("user");
+          setUser(JSON.parse(value));
+        } catch (error) {
+          console.log("Erreur lors de la récupération des données utilisateur :", error);
+        }
+      };
+      getUserData();
+    }, []);
+  
+    const handleLogout = async () => {
+      try {
+        await AsyncStorage.removeItem("token");
+        await AsyncStorage.removeItem("user");
+        setIsLoggedIn(false);
+      } catch (error) {
+        console.log("Erreur lors de la déconnexion :", error);
+      }
+    };
+
   return (
     <View style={styles.container}>
+    <Text style={styles.title}>Bienvenue sur l'application Acme !</Text>
+    {user && <Text style={styles.user}>Connecté en tant que {user.email}</Text>}
+    <Button title="Se déconnecter" onPress={handleLogout} />
+    <Tab.Navigator>
+      <Tab.Screen
+        name="Commande"
+        component={Commande}
+        options={{
+          tabBarVisible: shouldDisplayCommandeTab,
+        }}
+      />
+      <Tab.Screen name="Profile" component={Profile} />
+    </Tab.Navigator>
       <View style={styles.topBar} />
       <View style={styles.logoContainer}>
         <Image
@@ -51,3 +90,5 @@ const styles = StyleSheet.create({
     height: 150,
   },
 });
+
+}

@@ -26,7 +26,7 @@ function Shoe(props) {
       <Text style={styles.stock}>{props.stock} en stock</Text>
       <Text style={styles.alerte}>
         {props.stock < 25 && (
-          <Text style={{ color: "red" }}>Attention feur soon!</Text>
+          <Text style={{ color: "red" }}>Attention bientôt en rupture!</Text>
         )}
       </Text>
       <View style={styles.addFormWrapper}>

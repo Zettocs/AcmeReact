@@ -2,30 +2,47 @@ import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Icon from "react-native-vector-icons/FontAwesome";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import ShoppingList from "./components/ShoppingList";
 import Commande from "./components/Commande";
 import ProfilScreen from "./components/ProfilScreen";
-import { StatusBar } from "react-native";
 import Accueil from "./components/Accueil";
 import Connexion from "./components/Connexion";
-import Icon from "react-native-vector-icons/FontAwesome";
 import HistoriqueCommande from "./components/HistoriqueCommande";
 
 const Tab = createBottomTabNavigator();
 
-export default function App() {
+export default function App({ navigation }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showAccueil, setShowAccueil] = useState(true);
+  const [userRoles, setUserRoles] = useState([]);
 
-  const userRoles = ['["ROLE_ADMIN"], ["ROLE_USER"]'];
 
-  const shouldDisplayCommandeTab = userRoles.includes('["ROLE_ADMIN"]');
 
   useEffect(() => {
     setTimeout(() => {
       setShowAccueil(false);
     }, 3000);
   }, []);
+
+  useEffect(() => {
+    const fetchUserRoles = async () => {
+      try {
+        const roles = await AsyncStorage.getItem('userRoles');
+        if (roles) {
+          setUserRoles(JSON.parse(roles));
+        }
+      } catch (error) {
+        console.error("Erreur lors de la récupération des rôles:", error);
+      }
+    };
+  
+    fetchUserRoles();
+  }, []);
+
+
 
   return (
     <NavigationContainer>
@@ -53,17 +70,16 @@ export default function App() {
                     ),
                   }}
                 />
-                {shouldDisplayCommandeTab && (
                 <Tab.Screen
                   name="Commande"
                   component={Commande}
-                  options={{
+                  options={({ route }) => ({
                     tabBarIcon: ({ color, size }) => (
                       <Icon name="shopping-cart" color={color} size={size} />
                     ),
-                  }}
+                    tabBarVisible: userRoles && userRoles.includes("ROLE_ADMIN"), // Affiche l'onglet seulement si l'utilisateur a le rôle "ROLE_ADMIN"
+                  })}
                 />
-                )}
                 <Tab.Screen
                   name="Profil"
                   component={ProfilScreen}

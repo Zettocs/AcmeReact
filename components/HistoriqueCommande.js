@@ -12,6 +12,8 @@ export default function HistoriqueCommande() {
     const [commandesAvecUtilisateurs, setCommandeData] = useState([]);
     const [selectedCommande, setSelectedCommande] = useState(null);
     const [selectedCommandeLignes, setSelectedCommandeLignes] = useState([]);
+    const [user, setUser] = useState(null);
+
 
     const sendCommandeIdToSymfony = async (commande) => {
       try {
@@ -102,8 +104,6 @@ export default function HistoriqueCommande() {
           <Text>Prix total: {selectedCommande.prix_total}</Text>
           {selectedCommandeLignes.map((ligne, index) => (
             <View key={index}>
-              <Text>Ligne commande ID: {ligne.id}</Text>
-              <Text>Commande ID: {ligne.commande_id}</Text>
               <Text>Produit: {ligne.produit_id}</Text>
               <Text>Prix: {ligne.prix}</Text>
             </View>
