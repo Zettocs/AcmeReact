@@ -77,18 +77,10 @@ export default function App({ navigation }) {
                     tabBarIcon: ({ color, size }) => (
                       <Icon name="shopping-cart" color={color} size={size} />
                     ),
-                    tabBarVisible: userRoles && userRoles.includes("ROLE_ADMIN"), // Affiche l'onglet seulement si l'utilisateur a le rôle "ROLE_ADMIN"
+                     // Affiche l'onglet seulement si l'utilisateur a le rôle "ROLE_ADMIN"
                   })}
                 />
-                <Tab.Screen
-                  name="Profil"
-                  component={ProfilScreen}
-                  options={{
-                    tabBarIcon: ({ color, size }) => (
-                      <Icon name="user" color={color} size={size} />
-                    ),
-                  }}
-                />
+
                 <Tab.Screen
                   name="Commandes"
                   component={HistoriqueCommande}

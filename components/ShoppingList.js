@@ -50,38 +50,7 @@ function ShoppingList() {
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
 
-  function handleClick() {
-    produits.forEach((produit, index) => {
-      const quantite = parseInt(produit.quantity);
-      const idProduit = parseInt(produit.IdProduit_);
-      const formData = new FormData();
-      formData.append("idProduit", idProduit);
-      formData.append("quantite", quantite);
-      fetch(
-        "http://146.59.196.129/AcmeSymfonyAPI/public/index.php/api/modifier-stock",
-        {
-          method: "POST",
-          body: formData,
-        }
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          console.log("Data received:", data);
-        })
-        .catch((error) => console.error("Error sending data:", error));
-    });
-  }
 
-  function handleQuantiteChange(index, value) {
-    const newProduits = [...produits];
-    newProduits[index].quantite = value;
-    setShoeData(newProduits);
-  }
 
   const shoeComponents = produits.map((produit, index) => (
     <Shoe
@@ -96,16 +65,13 @@ function ShoppingList() {
       }
       stock={produit.Stock}
       quantite={produit.Quantite}
-      onQuantiteChange={(value) => handleQuantiteChange(index, value)}
+      
     />
   ));
 
   return (
     <ScrollView>
       <View style={styles.shoesList}>{shoeComponents}</View>
-      <TouchableOpacity onPress={handleClick} style={styles.commanderButton}>
-        <Text style={styles.commanderText}>Commander</Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 }
